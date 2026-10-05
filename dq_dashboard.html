@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bank Data Quality Governance Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root { --bg:#0f1115; --card:#171a21; --text:#e8eaed; --muted:#9aa0a6; --border:#2a2e37; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+         background: var(--bg); color: var(--text); padding: 24px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 17px; margin: 32px 0 12px; border-top: 1px solid var(--border); padding-top: 20px; }
+  .sub { color: var(--muted); margin-bottom: 20px; font-size: 13px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 16px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .tile { text-align:center; }
+  .tile .num { font-size: 42px; font-weight: 700; }
+  .tile .lbl { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; }
+  .section-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+  canvas { max-height: 240px; }
+</style>
+</head>
+<body>
+  <h1>Bank Data Quality Governance Dashboard</h1>
+  <div class="sub">Metric 04.01.05 &middot; Generated 2026-10-03 12:35</div>
+
+  <div class="grid">
+    <div class="card tile"><div class="num" style="color:#1e8e3e">99.04%</div>
+      <div class="lbl">Overall Data Quality Score</div></div>
+    <div class="card tile"><div class="num" style="color:#e8a400">4,780</div>
+      <div class="lbl">Total Open Anomalies</div></div>
+    <div class="card tile"><div class="num" style="color:#d93025">3</div>
+      <div class="lbl">Suspect Batches (Upstream Feed Failures)</div></div>
+  </div>
+
+  <h2>Data Quality Scores (Steps 28-30)</h2>
+  <div class="grid">
+    <div class="card"><div class="section-title">Score by Table</div>
+      <table><thead><tr><th>Table</th><th>Rules</th><th>Score</th><th>Violations</th></tr></thead>
+      <tbody><tr><td>CUSTOMER_MASTER</td><td>12</td><td style='color:#e8a400;font-weight:600'>98.41%</td><td>19,130</td></tr><tr><td>ACCOUNT_MASTER</td><td>6</td><td style='color:#1e8e3e;font-weight:600'>99.03%</td><td>7,593</td></tr><tr><td>LOAN_ACCOUNTS</td><td>7</td><td style='color:#1e8e3e;font-weight:600'>99.63%</td><td>771</td></tr><tr><td>TRANSACTIONS</td><td>4</td><td style='color:#1e8e3e;font-weight:600'>99.95%</td><td>962</td></tr></tbody></table></div>
+    <div class="card"><div class="section-title">Score Trend Across Runs</div>
+      <canvas id="trendChart"></canvas></div>
+  </div>
+
+  <h2>Anomaly Report (Steps 33-38)</h2>
+  <div class="grid">
+    <div class="card"><div class="section-title">Anomalies by Type</div>
+      <canvas id="typeChart"></canvas></div>
+    <div class="card"><div class="section-title">Root Cause Split</div>
+      <canvas id="rcChart"></canvas></div>
+    <div class="card"><div class="section-title">Anomalies by Table</div>
+      <table><thead><tr><th>Table</th><th>Count</th></tr></thead><tbody><tr><td>CUSTOMER_MASTER</td><td>2,133</td></tr><tr><td>LOAN_ACCOUNTS</td><td>1,131</td></tr><tr><td>ACCOUNT_MASTER</td><td>781</td></tr><tr><td>TRANSACTIONS</td><td>735</td></tr></tbody></table></div>
+  </div>
+
+  <div class="grid" style="grid-template-columns: 1fr;">
+    <div class="card">
+      <div class="section-title">Anomaly Count by Type &amp; Severity</div>
+      <table><thead><tr><th>Anomaly Type</th><th>Severity</th><th>Count</th></tr></thead>
+      <tbody><tr><td>RELATIONSHIP_MISMATCH</td><td style='color:#e8a400;font-weight:600'>MEDIUM</td><td>2,133</td></tr><tr><td>ORPHAN_RECORD</td><td style='color:#d93025;font-weight:600'>CRITICAL</td><td>1,491</td></tr><tr><td>ML_ISOLATION_FOREST</td><td style='color:#e8a400;font-weight:600'>MEDIUM</td><td>600</td></tr><tr><td>ORPHAN_RECORD</td><td style='color:#e8710a;font-weight:600'>HIGH</td><td>262</td></tr><tr><td>BROKEN_DATE_LOGIC</td><td style='color:#e8710a;font-weight:600'>HIGH</td><td>156</td></tr><tr><td>BROKEN_DATE_LOGIC</td><td style='color:#e8a400;font-weight:600'>MEDIUM</td><td>116</td></tr><tr><td>AMOUNT_SPIKE</td><td style='color:#e8710a;font-weight:600'>HIGH</td><td>22</td></tr></tbody></table>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Root Cause Summary</div>
+      <table><thead><tr><th>Root Cause</th><th>Count</th><th>% of Total</th></tr></thead>
+      <tbody><tr><td>ISOLATED_ENTRY_ERROR</td><td>4,081</td><td>85.4%</td></tr><tr><td>NOT_CLASSIFIED</td><td>622</td><td>13.0%</td></tr><tr><td>UPSTREAM_FEED_FAILURE</td><td>77</td><td>1.6%</td></tr></tbody></table>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Suspect Batches - Investigate First (Step 37)</div>
+      <table><thead><tr><th>Table</th><th>Source System</th><th>Batch</th><th>Anomalies</th><th>Recommended Action</th></tr></thead>
+      <tbody><tr><td>LOAN_ACCOUNTS</td><td>LOAN_ORIGINATION</td><td>LOAN_ORIGINATION-20260824</td><td style='color:#d93025;font-weight:700'>43</td><td>Trace the missing parent record; likely a late-arriving or failed upstream load. Quarantine until resolved.</td></tr><tr><td>TRANSACTIONS</td><td>CBS</td><td>CBS-20260703</td><td style='color:#d93025;font-weight:700'>17</td><td>Trace the missing parent record; likely a late-arriving or failed upstream load. Quarantine until resolved.</td></tr><tr><td>TRANSACTIONS</td><td>CBS</td><td>CBS-20260702</td><td style='color:#d93025;font-weight:700'>17</td><td>Trace the missing parent record; likely a late-arriving or failed upstream load. Quarantine until resolved.</td></tr></tbody></table>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Sample Isolated Errors (need individual review - Step 45 queue)</div>
+      <table><thead><tr><th>ID</th><th>Table</th><th>Record</th><th>Type</th><th>Severity</th><th>Description</th></tr></thead>
+      <tbody><tr><td>1</td><td>ACCOUNT_MASTER</td><td>106701100093</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9685835603 which does not exist in customer_master</td></tr><tr><td>2</td><td>ACCOUNT_MASTER</td><td>106701100222</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9609696346 which does not exist in customer_master</td></tr><tr><td>3</td><td>ACCOUNT_MASTER</td><td>106701100336</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9562029813 which does not exist in customer_master</td></tr><tr><td>4</td><td>ACCOUNT_MASTER</td><td>106701100389</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9635944000 which does not exist in customer_master</td></tr><tr><td>5</td><td>ACCOUNT_MASTER</td><td>106701100476</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9905167498 which does not exist in customer_master</td></tr><tr><td>6</td><td>ACCOUNT_MASTER</td><td>106702100016</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9369342049 which does not exist in customer_master</td></tr><tr><td>7</td><td>ACCOUNT_MASTER</td><td>106702100133</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9122897902 which does not exist in customer_master</td></tr><tr><td>8</td><td>ACCOUNT_MASTER</td><td>133501100170</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9903369987 which does not exist in customer_master</td></tr><tr><td>9</td><td>ACCOUNT_MASTER</td><td>133502100129</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9712678871 which does not exist in customer_master</td></tr><tr><td>10</td><td>ACCOUNT_MASTER</td><td>133502100171</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9185528061 which does not exist in customer_master</td></tr><tr><td>11</td><td>ACCOUNT_MASTER</td><td>139101100078</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9403683688 which does not exist in customer_master</td></tr><tr><td>12</td><td>ACCOUNT_MASTER</td><td>139101100153</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9886804044 which does not exist in customer_master</td></tr><tr><td>13</td><td>ACCOUNT_MASTER</td><td>139101100240</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9829117667 which does not exist in customer_master</td></tr><tr><td>14</td><td>ACCOUNT_MASTER</td><td>139101100390</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9890908554 which does not exist in customer_master</td></tr><tr><td>15</td><td>ACCOUNT_MASTER</td><td>139102100139</td><td>ORPHAN_RECORD</td><td style='color:#d93025'>CRITICAL</td><td>Account references customer_id 9962108669 which does not exist in customer_master</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <h2>Detection Accuracy vs Ground Truth (Step 40)</h2>
+  <div class="grid">
+    <div class="card tile"><div class="num" style="color:#d93025">86.3%</div>
+      <div class="lbl">Precision - of what we flagged, how much was real</div></div>
+    <div class="card tile"><div class="num" style="color:#1e8e3e">100.0%</div>
+      <div class="lbl">Recall - of everything real, how much we caught</div></div>
+  </div>
+  <div class="grid" style="grid-template-columns: 1fr;">
+    <div class="card">
+      <div class="section-title">True vs False Positives by Check</div>
+      <canvas id="accChart"></canvas>
+    </div>
+    <div class="card">
+      <div class="section-title">Accuracy Detail</div>
+      <table><thead><tr><th>Check</th><th>True Positive</th><th>False Positive</th><th>False Negative</th></tr></thead>
+      <tbody><tr><td>Orphan accounts</td><td style='color:#1e8e3e'>520</td><td style='color:#d93025'>261</td><td style='color:#e8a400'>0</td></tr><tr><td>Orphan loans</td><td style='color:#1e8e3e'>247</td><td style='color:#d93025'>0</td><td style='color:#e8a400'>0</td></tr><tr><td>Orphan transactions</td><td style='color:#1e8e3e'>724</td><td style='color:#d93025'>1</td><td style='color:#e8a400'>0</td></tr><tr><td>Broken date logic</td><td style='color:#1e8e3e'>256</td><td style='color:#d93025'>16</td><td style='color:#e8a400'>0</td></tr></tbody></table>
+    </div>
+  </div>
+
+<script>
+new Chart(document.getElementById('trendChart'), {
+  type: 'line',
+  data: { labels: ["Run 1"], datasets: [{ label: 'Score %', data: [99.04],
+           borderColor: '#4f9cff', backgroundColor: '#4f9cff33', fill: true, tension: 0.3 }] },
+  options: { scales: { y: { min: 0, max: 100, ticks: { color: '#9aa0a6' } }, x: { ticks: { color: '#9aa0a6' } } },
+             plugins: { legend: { display: false } } }
+});
+new Chart(document.getElementById('typeChart'), {
+  type: 'bar',
+  data: { labels: ["AMOUNT_SPIKE", "BROKEN_DATE_LOGIC", "ML_ISOLATION_FOREST", "ORPHAN_RECORD", "RELATIONSHIP_MISMATCH"], datasets: [{ label: 'Count', data: [22, 272, 600, 1753, 2133], backgroundColor: '#4f9cff' }] },
+  options: { indexAxis: 'y', scales: { x: { ticks: { color: '#9aa0a6' } }, y: { ticks: { color: '#9aa0a6' } } },
+             plugins: { legend: { display: false } } }
+});
+new Chart(document.getElementById('rcChart'), {
+  type: 'doughnut',
+  data: { labels: ["ISOLATED_ENTRY_ERROR", "NOT_CLASSIFIED", "UPSTREAM_FEED_FAILURE"], datasets: [{ data: [4081, 622, 77], backgroundColor: ['#e8a400','#d93025','#4f9cff'] }] },
+  options: { plugins: { legend: { position: 'bottom', labels: { color: '#e8eaed' } } } }
+});
+new Chart(document.getElementById('accChart'), {
+  type: 'bar',
+  data: { labels: ["Orphan accounts", "Orphan loans", "Orphan transactions", "Broken date logic"], datasets: [
+    { label: 'True Positive', data: [520, 247, 724, 256], backgroundColor: '#1e8e3e' },
+    { label: 'False Positive', data: [261, 0, 1, 16], backgroundColor: '#d93025' } ] },
+  options: { scales: { y: { ticks: { color: '#9aa0a6' } }, x: { ticks: { color: '#9aa0a6' } } },
+             plugins: { legend: { labels: { color: '#e8eaed' } } } }
+});
+</script>
+</body>
+</html>
