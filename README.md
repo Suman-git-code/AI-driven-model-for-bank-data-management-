@@ -91,7 +91,7 @@ Built against Metric 04.01.05 — *AI-Driven Modules for Data Management* (autom
 ### 3. Machine learning pipeline
 | File | Purpose |
 |---|---|
-| `dq_ml_pipeline.py` | Core `DQPipeline` class: learns rules from data, trains/validates a Random Forest error detector, generates correction suggestions, saves/loads the trained model |
+| `dq_ml_pipeline1.py` | Core `DQPipeline` class: learns rules from data, trains/validates a Random Forest error detector, generates correction suggestions, saves/loads the trained model |
 | `dq_step13_ml_confidence.py` | Logistic Regression model for correction-approval confidence |
 | `dq_step14_isolation_forest.py` | Isolation Forest for multivariate loan anomaly detection |
 | `dq_step15_ml_to_corrections.py` | Pushes ML-generated suggestions into the shared review queue |
